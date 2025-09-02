@@ -1,6 +1,6 @@
 import Hero from "@/components/Hero";
 import { Button } from "@/components/ui/button";
-import { featuresData, howItWorksData, statsData } from "@/Data/landing.js";
+import { featuresData, howItWorksData, statsData, testimonialsData } from "@/Data/landing.js";
 import Image from "next/image";
 import {
   Card,
@@ -39,7 +39,7 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
             {featuresData.map((item, index) => {
               return (
-                <Card className="hover:shadow-2xl py-6">
+                <Card className="hover:shadow-2xl py-6" key={index}>
 
                   <CardContent className="pt-4">
                     {item.icon}
@@ -65,7 +65,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {howItWorksData.map((item, index) => {
               return (
-             <div>
+             <div key={index}>
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 {item.icon}
               </div>
@@ -84,6 +84,56 @@ export default function Home() {
 
 
       </section>
+      <section className="py-20">
+
+        <div className="container mx-auto px-5">
+          <h2 className="text-4xl font-bold text-center mb-12">What our users say</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+            {testimonialsData.map((item, index) => {
+              return (
+                <Card className="hover:shadow-2xl py-6" key={index}>
+
+                  <CardContent className="pt-4">
+                    <div className="flex items-center mb-4">
+                      <Image src={item.image} width={40} height={40} className="rounded-full"></Image>
+                      <div className="ml-4">
+                        <div className="font-semibold">{item.name}</div>
+                        <div className="text-gray-500 text-sm">{item.role}</div>
+                      </div>
+                      <p>{item.quote}</p>
+                    </div>
+                    
+                   
+                  </CardContent>
+
+                </Card>
+
+              )
+            })}
+          </div>
+
+        </div>
+
+
+
+      </section>
+
+      <section className="">
+
+        <div className="container mx-auto px-5 bg-blue-600 text-center py-20">
+          <h2 className="text-4xl font-bold text-center mb-12 text-white">Ready to take care of your finances?</h2>
+         <p className="text-white text-xl mx-auto">
+          Join thousands of users
+         </p>
+   <Button className="animate-bounce mt-5 bg-white text-blue-600 hover:bg-blue-500 hover:text-white py-3 px-6" size="lg">
+    Start free trial
+   </Button>
+        </div>
+
+
+
+      </section>
+    
     </div>
   );
 }
