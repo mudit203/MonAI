@@ -13,8 +13,10 @@ import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
 import { LayoutDashboard, PlusIcon, TriangleDashedIcon } from 'lucide-react'
+import { checkuser } from '@/lib/CheckUser'
 
-function Header() {
+const Header=async()=> {
+  await checkuser();
   return (
     <div className='fixed top-0 w-full backdrop-blur-lg z-50 border-b'>
       <nav  className='flex justify-between container px-3 py-4 items-center'>
