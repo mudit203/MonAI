@@ -1,9 +1,21 @@
 "use server"
 
 import { db } from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/dist/types/server";
+import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+import { success } from "zod";
 
+
+const serialized_account=(obj)=>{
+  const dest_account={...obj};
+  if(obj.balance){
+   dest_account.balance= dest_account.balance.toNumber();
+  }
+  if(obj.amount){
+   dest_account.amount=dest_account.amount.toNumber();
+  }
+  return dest_account
+}
 
 export const createaccount = async (data) => {
    try {
@@ -51,10 +63,11 @@ export const createaccount = async (data) => {
          }
     
       })
+      const serial_account=serialized_account(new_account);
       revalidatePath("/dashboard")
       return {
-         ...new_account,
-         balance:new_account.balance.toNumber()
+        success:true,
+        data:serial_account
       }
    } catch (error) {
    throw new Error 
@@ -62,4 +75,48 @@ export const createaccount = async (data) => {
 
 
 
+}
+
+export const fetchaccount=async()=>{
+   try {
+       const{userId}= await auth();
+       if(!userId){
+      throw new Error("Unauthorized")
+       }
+        const user = await db.User.findUnique({
+         where: {
+            clerkuserid: userId
+         }
+      })
+      if(!user){
+         throw new Error("User Not Found");
+      }
+       const accounts=await db.Account.findMany({
+         where:{
+          userId:user.id
+         },
+         orderBy:{
+            createdAt:"desc"
+         },
+         include:{
+            _count:{
+               select:{
+                  transactions:true
+               }
+            }
+         }
+       })
+      //   console.log(accounts);
+      const serial_acc= accounts.map(acc=>{
+        return serialized_account(acc)
+      })
+       return {
+        serial_acc
+         
+       }
+
+
+   } catch (error) {
+      throw new Error(error);
+   }
 }

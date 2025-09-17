@@ -9,6 +9,8 @@ import {
   SignedOut,
   UserButton,
 } from '@clerk/nextjs'
+import { Toaster } from "@/components/ui/sonner";
+
 
 
 
@@ -43,6 +45,7 @@ export default function RootLayout({ children }) {
       <Header/>
         <main className="min-h-screen">
         {children}</main>
+        <Toaster richColours />
         
         <footer className="bg-blue-50 py-12">
           <div className="container mx-auto px-4 text-gray-400 text-center">

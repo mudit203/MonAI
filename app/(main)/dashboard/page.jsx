@@ -11,8 +11,15 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Plus } from 'lucide-react'
+import { fetchaccount } from '@/actions/dashboard'
 
-const Dashboardpage = () => {
+
+
+const Dashboardpage = async() => {
+ const {serial_acc}=await fetchaccount()
+ console.log(serial_acc);
+ 
+
   return (
     <div className='px-5'>
       <div className='grid gap-4 md:grid-cols-4 lg:grid-cols-3'>
@@ -27,7 +34,11 @@ const Dashboardpage = () => {
         </Card>
 
         </CreateAccountDrawer>
-      
+       <div>
+        {serial_acc.map(x=>{
+          return <div>{x.name}/</div>
+        })}
+       </div>
 
 
       </div>
