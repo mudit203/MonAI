@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card"
 import { Plus } from 'lucide-react'
 import { fetchaccount } from '@/actions/dashboard'
+import Accountcard from './_components/Accountcard'
 
 
 
@@ -34,12 +35,9 @@ const Dashboardpage = async() => {
         </Card>
 
         </CreateAccountDrawer>
-       <div>
-        {serial_acc.map(x=>{
-          return <div>{x.name}/</div>
-        })}
-       </div>
-
+       {serial_acc.length>0 && serial_acc.map((item)=>{
+         return <Accountcard key={item.id} account={item} />
+       })}
 
       </div>
     </div>
