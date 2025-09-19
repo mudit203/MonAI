@@ -47,14 +47,15 @@ function Accountcard({account}) {
  console.log("kyon",data)
     
   return (
-    // <Link href={`/account/${account.id}`}>
+   
   
 
 
     <Card>
+        <Link href={`/accounts/${account.id}`}>
   <CardHeader className="flex items-center justify-center justify-between">
     <CardTitle className="text-xl">{account.name}</CardTitle>
-    <Switch checked={account.isDefault} disabled={loading} onCheckedChange={handleDefaultChange}/>
+    <Switch checked={account.isDefault} disabled={loading} onClick={handleDefaultChange}/>
   </CardHeader>
   <CardContent>
     <div className='font-bold text-2xl'> 
@@ -77,8 +78,9 @@ function Accountcard({account}) {
 
     </div>
   </CardFooter>
-</Card>
-// </Link>
+  </Link>
+   </Card>
+
   )
 }
 

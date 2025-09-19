@@ -62,7 +62,7 @@ model Transaction{
   receipturl String?
   isReccurring Boolean @default(false)
   recurringInterval Recurringinterval?
-  nextreccurringdate DateTime
+  nextreccurringdate DateTime?
   lastprocessed DateTime?
   status TransactionStatus @default(COMPLETED)
   userId String

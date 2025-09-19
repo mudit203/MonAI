@@ -3,6 +3,7 @@
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+import { includes } from "zod";
 
 const serialized_account=(obj)=>{
   const dest_account={...obj};
@@ -68,4 +69,49 @@ export const toggle_default=async(account_id)=>{
     }
    
 
+}
+
+export const getAccountWithTransaction=async(account_id)=>{
+try {
+     const{userId}= await auth();
+     if(!userId){
+      throw new Error("Unauthorized")
+       }
+       const user = await db.User.findUnique({
+                where: {
+                   clerkuserid: userId
+                }
+             })
+       
+     if(!user){
+         throw new Error("User Not Found");
+      }
+      const account=await db.account.findUnique({
+        where:{
+            userId:user.id,
+            id:account_id
+        },
+        include:{
+            transactions:{
+                orderBy:{
+                    date:"desc"
+                },
+
+            },
+            _count:{
+                select:{transactions:true}
+            }
+        }
+      })
+     if(!account){
+        return null
+     }
+     return {
+        account: serialized_account(account),
+        transactions:account.transactions.map(serialized_account)
+     }
+
+} catch (error) {
+    
+}
 }
