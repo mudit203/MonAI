@@ -3,7 +3,8 @@ import React, { Suspense } from 'react'
 import { BarLoader } from 'react-spinners';
 import Transactionstable from '../_components/TransactionsTable';
 const page =async ({params}) => {
-    const tr=await getAccountWithTransaction(params.id);
+    const { id } = await params;
+    const tr=await getAccountWithTransaction(id);
     const{transactions,account}=tr;
   return (
     <div className='space-y-8 px-5'>

@@ -27,6 +27,9 @@ import { Badge } from '@/components/ui/badge'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { bulkdelete } from '@/actions/accounts'
+import usefetch from '@/hooks/use-fetch'
+import { toast, Toaster } from 'sonner'
 
 
 const Transactionstable = ({ transactions }) => {
@@ -55,11 +58,34 @@ const Transactionstable = ({ transactions }) => {
     })
   }
 
+const{data,loading,error,fn,setdata}=usefetch(bulkdelete);
+
+const handledelete=async()=>{
+  if(!window.confirm( "Are you sure want to delete transactions")){
+   return;
+  }
+  fn(SelectedIds);
+  console.log("data",data.dta)
+   if(error){
+    toast.error(error.message)
+   }
+}
+useEffect(() => {
+  if(!loading && data){
+   toast.success("successfully deleted")
+  }
+  
+  
+}, [loading,data])
+
+
+
+
   const handleselect = (id) => {
     setSelectedIds(prev => prev.includes(id) ? prev.filter(item => item != id) : [...prev, id])
   }
   const handleselectall = () => {
-    setSelectedIds(prev => prev.length === transactions.length ? [] : transactions.map(item => item.id))
+    setSelectedIds(prev => prev.length === filteredandsortedtransactions.length ? [] : filteredandsortedtransactions.map(item => item.id))
   }
   const handleclear=()=>{
     setrecurringfilter("");
@@ -89,11 +115,31 @@ const Transactionstable = ({ transactions }) => {
        else if(typefilter==="EXPENSE" && transaction.type=="EXPENSE") return transaction;
       })
     }
+
+   //ascending and descending
+      filtered.sort((a,b)=>{
+        let comparison=0;
+        switch (Sortconfig.field) {
+          case "date":
+            comparison=new Date(a.date)-new Date(b.date);
+            break
+          case "amount":
+            comparison=a.amount-b.amount
+            break
+          case "category":
+            comparison=a.category.localeCompare(b.category);
+            
+          default:
+            comparison=0
+        }
+        return Sortconfig.order=="asc"? comparison: -comparison
+      })
+
     return filtered;
    
-  }, [searhfilter,setsearhfilter,recurringfilter,setrecurringfilter,typefilter,settypefilter])
+  }, [transactions, searhfilter, recurringfilter, typefilter, Sortconfig])
   
-  console.log("transactions", transactions)
+  //console.log("transactions", transactions)
   // useEffect(() => {
   //  console.log("these are the selected ids",SelectedIds);
 
@@ -125,7 +171,7 @@ const Transactionstable = ({ transactions }) => {
           
           </SelectContent>
         </Select>
-        {SelectedIds.length>0 &&  <Button variant="destructive" onClick={()=>handledelete(SelectedIds)} size="sm">
+        {SelectedIds.length>0 &&  <Button variant="destructive" onClick={handledelete} size="sm">
           <Trash/>
           Delete Selected ({SelectedIds.length})
         </Button> 
@@ -139,7 +185,7 @@ const Transactionstable = ({ transactions }) => {
 
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[50px]">< Checkbox onCheckedChange={handleselectall} checked={SelectedIds.length === transactions.length && transactions.length > 0} /></TableHead>
+            <TableHead className="w-[50px]">< Checkbox onCheckedChange={handleselectall} checked={SelectedIds.length === filteredandsortedtransactions.length && filteredandsortedtransactions.length > 0} /></TableHead>
             <TableHead className="cursor-pointer" onClick={() => handlesort("date")}> <div className='flex items-center'>Date {Sortconfig.field === "date" ? (Sortconfig.order === "asc" ? (<ChevronUp className='w-4 h-4 ml-2' />) : (<ChevronDown className='w-4 h-4 ml-2' />)) : (<></>)}</div> </TableHead>
             <TableHead className="cursor-pointer"><div >Description</div></TableHead>
             <TableHead className="cursor-pointer" onClick={() => handlesort("category")}> <div className='flex items-center'>Category {Sortconfig.field === "category" ? (Sortconfig.order === "asc" ? (<ChevronUp className='w-4 h-4 ml-2' />) : (<ChevronDown className='w-4 h-4 ml-2' />)) : (<></>)}</div></TableHead>
@@ -149,7 +195,7 @@ const Transactionstable = ({ transactions }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {transactions.length === 0 ? (
+          {filteredandsortedtransactions.length === 0 ? (
             <TableRow>
               <TableCell className="font-medium">No transactions found</TableCell>
             </TableRow>
@@ -195,7 +241,7 @@ const Transactionstable = ({ transactions }) => {
                       <DropdownMenuLabel>Options</DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>Edit</DropdownMenuItem>
-                      <DropdownMenuItem><span className='text-red-500'>Delete</span></DropdownMenuItem>
+                      <DropdownMenuItem onClick={()=>fn([item.id])}>Delete</DropdownMenuItem>
 
                     </DropdownMenuContent>
                   </DropdownMenu>
