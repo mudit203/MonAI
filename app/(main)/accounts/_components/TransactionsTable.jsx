@@ -32,6 +32,7 @@ import usefetch from '@/hooks/use-fetch'
 import { toast, Toaster } from 'sonner'
 
 
+
 const Transactionstable = ({ transactions }) => {
   //const filteredandsortedtransactions = transactions;
   const [SelectedIds, setSelectedIds] = useState([])
@@ -42,6 +43,10 @@ const Transactionstable = ({ transactions }) => {
   const [typefilter, settypefilter] = useState("");
   const [recurringfilter, setrecurringfilter] = useState("");
   const [searhfilter, setsearhfilter] = useState("");
+  const [Page, setPage] = useState(1);
+  const handlechangepage=(index)=>{
+    setPage(index);
+  }
   console.log(typefilter)
   const types = {
     DAILY: "Daily",
@@ -200,7 +205,7 @@ useEffect(() => {
               <TableCell className="font-medium">No transactions found</TableCell>
             </TableRow>
           ) : (
-            filteredandsortedtransactions.map((item, index) => (
+            filteredandsortedtransactions.slice(Page*10-10,Page*10).map((item, index) => (
               <TableRow key={index}>
                 <TableCell><Checkbox onCheckedChange={() => handleselect(item.id)} checked={SelectedIds.includes(item.id)} /></TableCell>
                 <TableCell>{format(new Date(item.date), "PPPP")}</TableCell>
@@ -248,12 +253,24 @@ useEffect(() => {
                 </TableCell>
 
               </TableRow>
+             
             ))
           )}
 
         </TableBody>
 
       </Table>
+      <div className='px-auto'>
+        <span>prev</span>
+        <br />
+
+        <span>{[...Array(Math.ceil(filteredandsortedtransactions.length/10))].map((item,index)=>{
+          return <Button onClick={()=>handlechangepage(index+1)}>{index+1}</Button>
+        })}</span>
+        <br />
+        <span>next</span>
+        
+      </div>
 
 
     </div>
