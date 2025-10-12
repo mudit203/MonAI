@@ -30,6 +30,7 @@ function AccountChart({transactions}) {
 
     }
     const [date, setdate] = useState("1M")
+   
    const filtered_data=useMemo(() => {
    const range=date_ranges[date];
    const now=new Date();
@@ -45,7 +46,14 @@ function AccountChart({transactions}) {
    
     if(item.type==="INCOME"){
         acc[formattedDate].income+=item.amount;
-    }
+    }                                                                      
+                                                                          //acc[formattedDate].income accesses the income property of the object stored at the key formattedDate in the accumulator object acc.
+
+                                                                          //  Here’s how it works:
+
+                                                                          // acc is an object where each key is a date string (e.g., "Oct 07").
+                                                                          // acc[formattedDate] gets the object for that date: { formattedDate, income, expense }.
+                                                                          // .income accesses the income value inside that object.
     else{
      acc[formattedDate].expense+=item.amount;
     }
