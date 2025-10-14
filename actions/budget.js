@@ -26,7 +26,7 @@ try {
     const currentdate=new Date();
     const startmonth=new Date(currentdate.getFullYear(),currentdate.getMonth(),1)
     const endmonth=new Date(currentdate.getFullYear(),currentdate.getMonth()+1,0)
-
+    
     const expenses= await db.transaction.aggregate({
         where:{
             userId:user.id,
