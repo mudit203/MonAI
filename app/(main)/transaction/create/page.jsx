@@ -1,10 +1,9 @@
-import { SignUp } from '@clerk/nextjs'
 import React from 'react'
 
-function page() {
+const page = () => {
   return (
     <div>
-      <SignUp/> 
+      tp
     </div>
   )
 }
