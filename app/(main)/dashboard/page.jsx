@@ -21,7 +21,7 @@ import Budgetcomponent from './_components/Budgetcomponent'
 
 
 const Dashboardpage = async() => {
- const {serial_acc}=await fetchaccount()
+ const serial_acc=await fetchaccount()
  
  
  const default_acc=await serial_acc.find((account)=>{

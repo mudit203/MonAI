@@ -110,10 +110,9 @@ export const fetchaccount=async()=>{
       const serial_acc= accounts.map(acc=>{
         return serialized_account(acc)
       })
-       return {
-        serial_acc
+       return serial_acc
          
-       }
+       
 
 
    } catch (error) {
