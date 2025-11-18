@@ -15,11 +15,11 @@ export const transactionschema=z.object({
     date:z.date({required_error:"date is required"}),
     accountId:z.string().min(1,"Account is required"),
     category:z.string().min(1,"category is required"),
-    isRecurring:z.boolean().default(false),
+    isReccurring:z.boolean().default(false),
     recurringInterval:z.enum(["DAILY","WEEKLY","MONTHLY","YEARLY"]).optional(),
 
 }).superRefine((data,ctx)=>{
-    if(data.isRecurring && !data.recurringInterval){
+    if(data.isReccurring && !data.recurringInterval){
         ctx.addIssue({
             code:z.ZodIssueCode.custom,
             message:"Recurring interval is required for recurring transactions",
