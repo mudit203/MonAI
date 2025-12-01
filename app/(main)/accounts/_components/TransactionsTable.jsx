@@ -30,6 +30,7 @@ import { Input } from '@/components/ui/input'
 import { bulkdelete } from '@/actions/accounts'
 import usefetch from '@/hooks/use-fetch'
 import { toast, Toaster } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 
 
@@ -40,6 +41,7 @@ const Transactionstable = ({ transactions }) => {
     field: "date",
     order: "desc"
   })
+  const router = useRouter()
   const [typefilter, settypefilter] = useState("");
   const [recurringfilter, setrecurringfilter] = useState("");
   const [searhfilter, setsearhfilter] = useState("");
@@ -245,7 +247,7 @@ useEffect(() => {
                     <DropdownMenuContent>
                       <DropdownMenuLabel>Options</DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem>Edit</DropdownMenuItem>
+                      <DropdownMenuItem ><Button variant="neutral" onClick={()=>router.push(`/transaction/create?edit=${item.id}`)}>Edit</Button></DropdownMenuItem>
                       <DropdownMenuItem onClick={()=>fn([item.id])}>Delete</DropdownMenuItem>
 
                     </DropdownMenuContent>

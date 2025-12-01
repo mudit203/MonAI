@@ -143,7 +143,7 @@ export const getAccountWithTransaction = async (account_id) => {
           const change=current.type==="EXPENSE"? amount: -amount
           acc[current.accountId]=(acc[current.accountId] || 0)+change
           return acc
-        },{})
+        },{});
        await db.$transaction(async(tx)=>{
          await tx.transaction.deleteMany({
             where:{
