@@ -1,6 +1,10 @@
 import { Body, Button, Container, Head, Heading, Html, Preview, Section, Text } from "@react-email/components";
 import * as React from "react";
 
+
+
+
+
 export default function Email({
   username,
   type,
@@ -9,16 +13,72 @@ export default function Email({
   if(type=="finance-report"){
      return (
     <Html>
-      <div
-        href="https://example.com"
-        style={{ background: "#000", color: "#fff", padding: "12px 20px" }}
-      >
-      Ye to finance report hai laadle
-      </div>
-    </Html>
+        <Head />
+        <Preview>Your Monthly Financial Report</Preview>
+        <Body style={styles.body}>
+          <Container style={styles.container}>
+            <Heading style={styles.title}>Monthly Financial Report</Heading>
+
+            <Text style={styles.text}>Hello {username},</Text>
+            <Text style={styles.text}>
+              Here&rsquo;s your financial summary for {data?.month}:
+            </Text>
+
+            {/* Main Stats */}
+            <Section style={styles.statsContainer}>
+              <div style={styles.stat}>
+                <Text style={styles.text}>Total Income</Text>
+                <Text style={styles.heading}>${data?.stats.totalincome}</Text>
+              </div>
+              <div style={styles.stat}>
+                <Text style={styles.text}>Total Expenses</Text>
+                <Text style={styles.heading}>${data?.stats.totalexpense}</Text>
+              </div>
+              <div style={styles.stat}>
+                <Text style={styles.text}>Net</Text>
+                <Text style={styles.heading}>
+                  ${data?.stats.totalincome - data?.stats.totalexpense}
+                </Text>
+              </div>
+            </Section>
+
+            {/* Category Breakdown */}
+            {data?.stats?.bycategory && (
+              <Section style={styles.section}>
+                <Heading style={styles.heading}>Expenses by Category</Heading>
+                {Object.entries(data?.stats.bycategory).map(
+                  ([category, amount]) => (
+                    <div key={category} style={styles.row}>
+                      <Text style={styles.text}>{category}</Text>
+                      <Text style={styles.text}>${amount}</Text>
+                    </div>
+                  )
+                )}
+              </Section>
+            )}
+
+            {/* AI Insights */}
+            {data?.insights && (
+              <Section style={styles.section}>
+                <Heading style={styles.heading}>Welth Insights</Heading>
+                {data.insights.map((insight, index) => (
+                  <Text key={index} style={styles.text}>
+                    • {insight}
+                  </Text>
+                ))}
+              </Section>
+            )}
+
+            <Text style={styles.footer}>
+              Thank you for using Welth. Keep tracking your finances for better
+              financial health!
+            </Text>
+          </Container>
+        </Body>
+      </Html>
   );
   }
-  if (type=="budget-alerts") {
+   if (type=="budget-alerts") {
   return(
     <Html>
      <Head/>

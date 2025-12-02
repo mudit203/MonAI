@@ -23,7 +23,7 @@ import { Progress } from '@/components/ui/progress';
 function Budgetcomponent({budget,currentexpense}) {
   const [isEditing, setisEditing] = useState(false);
   const [Budget, setBudget] = useState(budget?.amount.toString() || "0")
-  const percentageused=(currentexpense/budget.amount)*100;
+  const percentageused=(currentexpense/budget?.amount)*100;
   console.log("Current expense",currentexpense)
  const handlecancel=()=>{
     setBudget(budget?.amount.toString())
