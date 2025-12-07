@@ -119,3 +119,32 @@ export const fetchaccount=async()=>{
       throw new Error(error);
    }
 }
+
+
+export const getDashboardData=async()=>{
+   try {
+       const { userId } = await auth();
+      if (!userId) {
+         console.error("unauthorized")
+      }
+       const user = await db.User.findUnique({
+         where: {
+            clerkuserid: userId
+         }
+      })
+      if(!user){
+         throw new Error("User Not Found");
+      }
+      const transactions=await db.transaction.findMany({
+         where:{
+            userId:user.id
+         },
+         orderBy:{
+            date:"desc"
+         }
+      })
+      return transactions.map(item=>serialized_account(item))
+   } catch (error) {
+      throw new Error(error)
+   }
+}

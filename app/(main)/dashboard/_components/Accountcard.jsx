@@ -44,7 +44,7 @@ function Accountcard({account}) {
     }
 
   },[error])
- console.log("kyon",data)
+
     
   return (
    

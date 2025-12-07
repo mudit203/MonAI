@@ -2,7 +2,7 @@
 
 import CreateAccountDrawer from '@/components/CreateAccountDrawer'
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import {
   Card,
   CardAction,
@@ -13,10 +13,11 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Plus } from 'lucide-react'
-import { fetchaccount } from '@/actions/dashboard'
+import { fetchaccount, getDashboardData } from '@/actions/dashboard'
 import Accountcard from './_components/Accountcard'
 import { totalbudget } from '@/actions/budget'
 import Budgetcomponent from './_components/Budgetcomponent'
+import DashboardOverview from './_components/DashboardOverview'
 
 
 
@@ -36,6 +37,7 @@ const Dashboardpage = async() => {
  console.log("this is the default account,",default_acc)
  console.log("these are all the accounts",serial_acc);
 
+const transactions=await getDashboardData();
 
  
  
@@ -48,6 +50,13 @@ const Dashboardpage = async() => {
 
         </Budgetcomponent>)
       }
+
+      <Suspense fallback={"Loading overview..."}>
+        <div className='mt-4'>
+          <DashboardOverview transactions={transactions || []} account={serial_acc}/>
+          </div> 
+        
+      </Suspense>
       
       <div className='grid gap-4 md:grid-cols-4 lg:grid-cols-3 mt-5'>
         <CreateAccountDrawer>

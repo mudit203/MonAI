@@ -91,7 +91,7 @@ function AddTransactionForm({ accounts, categories,editmode=false,initialdata=nu
             accountId: accounts.find((acc) => acc.isDefault)?.id,
             date: new Date(),
             category: "salary",
-            isReccurring: true,
+            isReccurring: false,
             recurringInterval: "MONTHLY"
 
         }
