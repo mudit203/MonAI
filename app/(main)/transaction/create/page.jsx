@@ -1,3 +1,5 @@
+
+export const dynamic = 'force-dynamic';
 import { fetchaccount } from '@/actions/dashboard'
 import React from 'react'
 import AddTransactionForm from '../_components/AddTransactionForm';
