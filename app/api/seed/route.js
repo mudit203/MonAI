@@ -1,5 +1,10 @@
 import { seedTransactions } from "@/actions/seed";
 
+
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
+
 export async function GET(params) {
     const result=await seedTransactions();
     return Response.json(result);
