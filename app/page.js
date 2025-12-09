@@ -94,9 +94,9 @@ export default function Home() {
                 <Card className="hover:shadow-2xl py-6" key={index}>
 
                   <CardContent className="pt-4">
-                    <div className="flex items-center mb-4">
-                      <Image src={item.image} width={40} height={40} className="rounded-full"></Image>
-                      <div className="ml-4">
+                    <div className="md:flex  md:items-center mb-4 md:justify-center md:gap-2 flex flex-col items-center justify-center gap-2">
+                   <Image src={item.image} width={40} height={40} className="rounded-full"></Image>
+                      <div className="">
                         <div className="font-semibold">{item.name}</div>
                         <div className="text-gray-500 text-sm">{item.role}</div>
                       </div>
