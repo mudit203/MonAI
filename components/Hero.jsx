@@ -46,7 +46,7 @@ window.addEventListener("scroll",handlescroll);
       <div>
         <div className='hero-image-wrapper'>
             <div className='hero-image' ref={imgref}>
-<Image src={"/logo.png"} height={720} width={1280} priority className='rounded-lg mx-auto shadow-2 xl' alt='dashbpard preview'/>
+<Image src={"/heroimage.png"} height={720} width={1280} priority className='rounded-lg mx-auto shadow-2 xl' alt='dashbpard preview'/>
             </div>
          
         </div>
